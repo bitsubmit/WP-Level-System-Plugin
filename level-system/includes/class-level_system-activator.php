@@ -47,8 +47,6 @@ class Level_system_Activator {
 			user_status int(11) NOT NULL default '0',
 			user_xp bigint(20) NOT NULL default '0',
 			display_name varchar(250) NOT NULL default '',
-			spam tinyint(2) NOT NULL default '0',
-			deleted tinyint(2) NOT NULL default '0',
 			PRIMARY KEY  (ID),
 			KEY user_login_key (user_login),
 			KEY user_nicename (user_nicename) 
@@ -57,5 +55,4 @@ class Level_system_Activator {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta( $sql );
 	}
-
 }

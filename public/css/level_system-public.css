@@ -2,3 +2,17 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+ .level-system{
+    margin:auto;
+}
+.sr-only{
+	height:auto!important;
+	width:auto!important;
+	color: lawngreen;
+	position:inherit!important;
+	overflow:visible!important;
+}
+
+.progress{
+	height: 24px;
+}

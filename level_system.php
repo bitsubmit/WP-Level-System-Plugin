@@ -44,6 +44,8 @@ define( 'PLUGIN_NAME_VERSION', '1.0.0' );
 function activate_level_system() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-level_system-activator.php';
 	Level_system_Activator::activate();
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-level_system-widgets.php';
+	Level_system_Widgets::update();
 }
 
 /**
@@ -63,6 +65,7 @@ register_deactivation_hook( __FILE__, 'deactivate_level_system' );
  * admin-specific hooks, and public-facing site hooks.
  */
 require plugin_dir_path( __FILE__ ) . 'includes/class-level_system.php';
+require plugin_dir_path( __FILE__ ) . 'includes/class-level_system-widgets.php';
 
 /**
  * Begins execution of the plugin.
