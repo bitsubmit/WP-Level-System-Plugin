@@ -72,7 +72,13 @@ class Level_system_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
+		
+		if ( 'settings_page_level_system' == get_current_screen() -> id ) {
+             // CSS stylesheet for Color Picker
+             wp_enqueue_style( 'wp-color-picker' );            
+             wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/level_system-admin.css', array( 'wp-color-picker' ), $this->version, 'all' );
+         }
+		
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/level_system-admin.css', array(), $this->version, 'all' );
 
 	}
@@ -95,7 +101,11 @@ class Level_system_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
+		
+		if ( 'settings_page_level_system' == get_current_screen() -> id ) {
+            wp_enqueue_media();   
+            wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/level_system-admin.js', array( 'jquery', 'wp-color-picker' ), $this->version, false );         
+        }
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/level_system-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
@@ -144,5 +154,16 @@ class Level_system_Admin {
 	public function options_update() {
 		register_setting($this->plugin_name, $this->plugin_name, array($this, 'validate'));
 	 }
+	
+	public function validate($input){
+		// All checkboxes inputs
+        $valid = array();
+		
+		$valid['jquery_cdn'] = (isset($input['jquery_cdn']) && !empty($input['jquery_cdn'])) ? 1 : 0;
+
+        $valid['cdn_provider'] = esc_url($input['cdn_provider']);
+		
+		return $valid;
+	}
 
 }
