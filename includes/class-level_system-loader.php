@@ -123,6 +123,48 @@ class Level_system_Loader {
 		foreach ( $this->actions as $hook ) {
 			add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
 		}
+		
+		
+		
+		add_action( 'wp_insert_comment', 'giveUserXPOnNewComment' );
+		function giveUserXPOnNewComment( $comment_id ){
+			
+			global $wpdb;
+			$users = $wpdb->prefix . "users";
+			$comments = $wpdb->prefix . "comments";
+			
+			$findUserIDInComment = $wpdb->get_var("SELECT user_id
+				FROM $comments
+				WHERE comment_ID = $comment_id");
+			
+			$updateUserXP = "UPDATE $users 
+				SET user_xp = user_xp + 10
+				WHERE ID = $findUserIDInComment";
+			
+			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+			dbDelta( $updateUserXP );
+			
+		}
+		
+		
+		add_action( 'delete_comment', function( $comment_id ) {
+			
+			global $wpdb;
+			$users = $wpdb->prefix . "users";
+			$comments = $wpdb->prefix . "comments";
+			
+			$findUserIDInComment = $wpdb->get_var("SELECT user_id
+				FROM $comments
+				WHERE comment_ID = $comment_id");
+			
+			$updateUserXP = "UPDATE $users 
+				SET user_xp = user_xp - 10
+				WHERE ID = $findUserIDInComment";
+			
+			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+			dbDelta( $updateUserXP );
+			
+		} );
 
 	}
 

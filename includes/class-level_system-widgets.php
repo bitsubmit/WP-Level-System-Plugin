@@ -98,8 +98,10 @@ class Level_system_Widgets extends WP_Widget {
 				
 					
 					<div class="row">
-						<div class="progress progress-striped active" style="width: 80%; margin:auto;">
-							<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $bar;?>">
+						
+						
+						<div class="progress" style="width: 80%; margin:auto;">
+							<div class="progress-bar progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $bar;?>">
 								<span class="sr-only"><?php echo $user_XP . " / " . $actualNextLevel ?></span>
 							</div>
 						</div>	

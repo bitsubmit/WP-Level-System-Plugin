@@ -175,7 +175,10 @@ class Level_system {
 	private function define_public_hooks() {
 
 		$plugin_public = new Level_system_Public( $this->get_plugin_name(), $this->get_version() );
-
+		wp_register_style('prefix_bootstrap', '//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css');
+    	wp_enqueue_style('prefix_bootstrap');
+		wp_register_script('prefix_bootstrap', '//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js');
+    	wp_enqueue_script('prefix_bootstrap');
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 

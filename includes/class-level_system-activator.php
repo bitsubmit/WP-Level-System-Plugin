@@ -32,10 +32,11 @@ class Level_system_Activator {
 
 	public static function activate() {
 		global $wpdb;
-		$users = $wpdb->prefix . "users"; 
+		$users = $wpdb->prefix . "users";
+		$comments = $wpdb->prefix . "comments";
 		$charset_collate = $wpdb->get_charset_collate();
 
-		$sql = "CREATE TABLE $users (
+		$createTableUsers = "CREATE TABLE $users (
 			ID bigint(20) unsigned NOT NULL auto_increment,
 			user_login varchar(60) NOT NULL default '',
 			user_pass varchar(64) NOT NULL default '',
@@ -51,8 +52,20 @@ class Level_system_Activator {
 			KEY user_login_key (user_login),
 			KEY user_nicename (user_nicename) 
 		)	$charset_collate";
-
+		
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		dbDelta( $sql );
+		dbDelta( $createTableUsers );
+		
+		
+		$updateUserXP = "UPDATE $users 
+			JOIN $comments 
+				ON $users.ID = $comments.user_id
+			SET $users.user_xp = $users.user_xp + 10
+				WHERE $comments.user_id > 0";
+		
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		dbDelta( $updateUserXP );
+
+		
 	}
 }

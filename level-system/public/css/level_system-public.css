@@ -8,11 +8,16 @@
 .sr-only{
 	height:auto!important;
 	width:auto!important;
-	color: lawngreen;
+	color: ivory;
 	position:inherit!important;
 	overflow:visible!important;
 }
 
 .progress{
 	height: 24px;
+	max-width:350px;
+}
+
+.progress-bar{
+	background-color:gray!important;
 }
