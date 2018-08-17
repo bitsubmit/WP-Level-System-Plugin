@@ -51,6 +51,7 @@ class Level_system_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
+		$this->level_system_options = get_option($this->plugin_name);
 
 	}
 
@@ -159,11 +160,122 @@ class Level_system_Admin {
 		// All checkboxes inputs
         $valid = array();
 		
-		$valid['jquery_cdn'] = (isset($input['jquery_cdn']) && !empty($input['jquery_cdn'])) ? 1 : 0;
+		//Second Color Picker
+	$valid['login_button_primary_color'] = (isset($input['login_button_primary_color']) && !empty($input['login_button_primary_color'])) ? 		                                           sanitize_text_field($input['login_button_primary_color']) : '';
 
-        $valid['cdn_provider'] = esc_url($input['cdn_provider']);
+	if ( !empty($valid['login_button_primary_color']) && !preg_match( '/^#[a-f0-9]{6}$/i', $valid['login_button_primary_color']  ) ) { // if user insert a HEX color with #
+		add_settings_error(
+				'login_button_primary_color',                     // Setting title
+				'login_button_primary_color_texterror',            // Error ID
+				'Please enter a valid hex value color',     // Error message
+				'error'                         // Type of message
+		);
+	}
 		
 		return $valid;
 	}
+	
+	// Get Button and links color is set and different from #00A0D2 return it's css
+     private function level_system_login_button_color(){
+         if(isset($this->level_system_options['login_button_primary_color']) && !empty($this->level_system_options['login_button_primary_color']) ){
+             $button_color = $this->level_system_options['login_button_primary_color'];
+             $border_color = $this->sass_darken($button_color, 10);
+             $message_color = $this->sass_lighten($button_color, 10);
+             $button_color_css = "body.login #nav a, body.login #backtoblog a {
+                                   color: ".$button_color." !important;
+                  }
+                  .login .message {
+                   border-left: 4px solid ".$message_color.";
+                  }
+                  body.login #nav a:hover, body.login #backtoblog a:hover {
+                        color: ". $border_color." !important;
+                  }
+
+                  body.login .button-primary {
+                         background: ".$button_color."; /* Old browsers */
+                         background: -moz-linear-gradient(top, ".$button_color." 0%, ". $border_color.", 10%) 100%); /* FF3.6+ */
+                         background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,".$button_color."), color-stop(100%, ". $border_color.", 10%))); /* Chrome,Safari4+ */
+                         background: -webkit-linear-gradient(top, ".$button_color." 0%, ". $border_color.", 10%) 100%); /* Chrome10+,Safari5.1+ */
+                         background: -o-linear-gradient(top, ".$button_color." 0%, ". $border_color.", 10%) 100%); /* Opera 11.10+ */
+                         background: -ms-linear-gradient(top, ".$button_color." 0%, ". $border_color.", 10%) 100%); /* IE10+ */
+                         background: linear-gradient(to bottom, ".$button_color." 0%, ". $border_color.", 10%) 100%); /* W3C */
+
+                         -webkit-box-shadow: none!important;
+                         box-shadow: none !important;
+
+                         border-color:". $border_color."!important;
+                    }
+                    body.login .button-primary:hover, body.login .button-primary:active {
+                         background: ". $border_color."; /* Old browsers */
+                         background: -moz-linear-gradient(top, ". $border_color." 0%, ". $border_color.", 10%) 100%); /* FF3.6+ */
+                         background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,". $border_color."), color-stop(100%,". $border_color.", 10%))); /* Chrome,Safari4+ */
+                         background: -webkit-linear-gradient(top, ". $border_color." 0%,". $border_color.", 10%) 100%); /* Chrome10+,Safari5.1+ */
+                         background: -o-linear-gradient(top, ". $border_color." 0%,". $border_color.", 10%) 100%); /* Opera 11.10+ */
+                         background: -ms-linear-gradient(top, ". $border_color." 0%,". $border_color.", 10%) 100%); /* IE10+ */
+                         background: linear-gradient(to bottom, ". $border_color." 0%,". $border_color.", 10%) 100%); /* W3C */
+                    }
+
+                    body.login input[type=checkbox]:checked:before{
+                          color:".$button_color."!important;
+                    }
+
+                    body.login input[type=checkbox]:focus,
+                    body.login input[type=email]:focus,
+                    body.login input[type=number]:focus,
+                    body.login input[type=password]:focus,
+                    body.login input[type=radio]:focus,
+                    body.login input[type=search]:focus,
+                    body.login input[type=tel]:focus,
+                    body.login input[type=text]:focus,
+                    body.login input[type=url]:focus,
+                    body.login select:focus,
+                    body.login textarea:focus {
+                    border-color: ".$button_color."!important;
+                    -webkit-box-shadow: 0 0 2px ".$button_color."!important;
+                    box-shadow: 0 0 2px ".$button_color."!important;
+             }";
+
+             return $button_color_css;
+         }
+     }
+	
+	
+     public function level_system_login_css(){
+         if(($this->level_system_login_button_color() != null)){
+             echo '<style>';
+			 
+             if($this->level_system_login_button_color() != null){
+                   echo $this->level_system_login_button_color();
+             }
+			 
+             echo '</style>';
+         }
+     }
+	
+	private function sass_darken($hex, $percent) {
+         preg_match('/^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i', $hex, $primary_colors);
+         str_replace('%', '', $percent);
+         $color = "#";
+         for($i = 1; $i <= 3; $i++) {
+             $primary_colors[$i] = hexdec($primary_colors[$i]);
+             $primary_colors[$i] = round($primary_colors[$i] * (100-($percent*2))/100);
+             $color .= str_pad(dechex($primary_colors[$i]), 2, '0', STR_PAD_LEFT);
+         }
+
+         return $color;
+     }
+
+     private function sass_lighten($hex, $percent) {
+         preg_match('/^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i', $hex, $primary_colors);
+         str_replace('%', '', $percent);
+         $color = "#";
+         for($i = 1; $i <= 3; $i++) {
+             $primary_colors[$i] = hexdec($primary_colors[$i]);
+             $primary_colors[$i] = round($primary_colors[$i] * (100+($percent*2))/100);
+             $color .= str_pad(dechex($primary_colors[$i]), 2, '0', STR_PAD_LEFT);
+         }
+
+         return $color;
+     }
 
 }
