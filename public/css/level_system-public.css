@@ -2,7 +2,7 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
- .level-system{
+.level-system{
     margin:auto;
 }
 .sr-only{
@@ -14,10 +14,5 @@
 }
 
 .progress{
-	height: 24px;
 	max-width:350px;
-}
-
-.progress-bar{
-	background-color:gray!important;
 }

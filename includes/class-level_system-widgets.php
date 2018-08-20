@@ -40,8 +40,6 @@ class Level_system_Widgets extends WP_Widget {
         }
         
 		
-		
-		
 		$user_info = wp_get_current_user();
 		$user_ID = $user_info->ID;
 		$user_XP = $user_info->user_xp;
@@ -73,7 +71,7 @@ class Level_system_Widgets extends WP_Widget {
 								$nextLevel = ( $nextLevel * $level );
 
 
-								if( ( $user_XP > $beginLevel ) && ( $user_XP < $nextLevel ) ){
+								if( ( $user_XP >= $beginLevel ) && ( $user_XP <= $nextLevel ) ){
 									$actualLevel = $level;
 									$actualNextLevel = $nextLevel;
 
@@ -100,8 +98,8 @@ class Level_system_Widgets extends WP_Widget {
 					<div class="row">
 						
 						
-						<div class="progress" style="width: 80%; margin:auto;">
-							<div class="progress-bar progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $bar;?>">
+						<div class="progress" style="width: 80%;">
+							<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $bar;?>">
 								<span class="sr-only"><?php echo $user_XP . " / " . $actualNextLevel ?></span>
 							</div>
 						</div>	

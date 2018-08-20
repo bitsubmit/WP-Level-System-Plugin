@@ -28,8 +28,15 @@
 	 * Although scripts in the WordPress core, Plugins and Themes may be
 	 * practising this, we should strive to set a better example in our own work.
 	 */
+	
 	$(function(){
-		$( '.level_system-color-picker' ).wpColorPicker();
+		var getURL = location.href; 
+		var onlyGetUrlAfterQuestionMark = getURL.substring( getURL.indexOf("?") +1 );
+		
+		if( onlyGetUrlAfterQuestionMark === "page=level_system"){
+			$( '.level_system-color-picker' ).wpColorPicker();
+		}		
+		
 	});
 
 })( jQuery );

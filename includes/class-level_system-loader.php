@@ -124,8 +124,6 @@ class Level_system_Loader {
 			add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
 		}
 		
-		
-		
 		add_action( 'wp_insert_comment', 'giveUserXPOnNewComment' );
 		function giveUserXPOnNewComment( $comment_id ){
 			
@@ -165,7 +163,45 @@ class Level_system_Loader {
 			dbDelta( $updateUserXP );
 			
 		} );
-
+		
+		
+		function getColorFromDB(){
+			$level_system_options_array_from_db = get_option("level_system");
+			$progress_bar_color = implode( ', ', array_slice( $level_system_options_array_from_db, 0, 1 ) );
+			$text_color = implode( ', ', array_slice( $level_system_options_array_from_db, 1, 1 ) );
+			$text_color_within_bar = implode( ', ', array_slice( $level_system_options_array_from_db, 2, 1 ) );
+			$progress_width = implode( ', ', array_slice( $level_system_options_array_from_db, 3, 1 ) );
+			?>
+			<style>
+				.progress-bar{
+					background-color:
+						<?php 
+							echo $progress_bar_color."!important; }";
+						?>
+						
+				.level-system{
+					color:
+						<?php
+							echo $text_color."!important; }";
+						?>
+						
+				.sr-only{
+					color:
+						<?php
+							echo $text_color_within_bar."!important; }";
+						?>
+					
+				.progress{
+					max-width:
+						<?php
+							echo $progress_width."!important; }";
+						?>
+			</style>
+			<?php
+			
+		}
+		add_action('wp_head', 'getColorFromDB');
+		
 	}
 
 }
