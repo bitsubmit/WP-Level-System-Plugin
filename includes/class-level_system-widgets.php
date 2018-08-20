@@ -98,7 +98,7 @@ class Level_system_Widgets extends WP_Widget {
 					<div class="row">
 						
 						
-						<div class="progress" style="width: 80%;">
+						<div class="progress center-block" style="width: 80%;">
 							<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $bar;?>">
 								<span class="sr-only"><?php echo $user_XP . " / " . $actualNextLevel ?></span>
 							</div>
@@ -111,7 +111,7 @@ class Level_system_Widgets extends WP_Widget {
 					?>
 					<div class="row">
 						<div class="col-sm-12">
-							Powered by <a href="https://sublimelinks.com"> SublimeLinks</a>
+							Powered by <a href="https://sublimelinks.com" class="powered-by" target="_blank"> SublimeLinks</a>
 						</div>
 							
 					</div>

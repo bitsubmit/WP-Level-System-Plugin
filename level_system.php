@@ -14,7 +14,6 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Level System
- * Plugin URI:        https://sublimelinks.com
  * Description:       The one and only Level System for WordPress. Just add the widget to your favorite area and enjoy the fully customizable and responsive level system. Pick your own colors and width for the progress bar. Automatically give users on your website level and experience points as they contribute to your website. Possibilities to test all XP points & levels directly in your browser.
  * Version:           1.0.0
  * Author:            Simon Jakobsen
