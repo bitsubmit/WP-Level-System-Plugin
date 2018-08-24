@@ -16,9 +16,3 @@
 .progress{
 	max-width:350px;
 }
-
-.progress-bar.active, .progress.active .progress-bar {
-    -webkit-animation: progress-bar-stripes 1s linear infinite;
-    -o-animation: progress-bar-stripes 1s linear infinite;
-    animation: progress-bar-stripes 1s linear infinite;
-}

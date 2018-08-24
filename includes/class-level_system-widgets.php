@@ -46,7 +46,6 @@ class Level_system_Widgets extends WP_Widget {
 		?>
 		
 		<div class="level-system">
-			<div class="container">
 			
 					<?php
 						//Test the level system by adding an extension to the end of the URL. For instance: ?xp=1510
@@ -116,7 +115,6 @@ class Level_system_Widgets extends WP_Widget {
 							
 					</div>
 			</div>
-		</div>
 		<?php
 		
 
